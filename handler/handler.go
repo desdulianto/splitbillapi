@@ -48,34 +48,41 @@ func badRequest(w http.ResponseWriter, message string) ErrorMessage {
 	return errorResponse(w, http.StatusBadRequest, message)
 }
 
-// Handle split bill (POST method)
-func SplitBillHandler(w http.ResponseWriter, r *http.Request) {
+// handle POST request
+func handlePost(w http.ResponseWriter, r *http.Request) interface{} {
 	var response interface{}
 
-	// check method
-	if r.Method != "POST" {
-		response = errorResponse(w, http.StatusMethodNotAllowed, "")
+	// decode request body
+	var bill splitbill.Bill
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&bill)
+	if err != nil {
+		response = badRequest(w, err.Error())
 	} else {
-		// decode request body
-		var bill splitbill.Bill
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&bill)
+		// generate response
+		amountPay, err := bill.SplitEvenly()
 		if err != nil {
 			response = badRequest(w, err.Error())
 		} else {
-			// generate response
-			amountPay, err := bill.SplitEvenly()
-			if err != nil {
-				response = badRequest(w, err.Error())
-			} else {
-				response = BillResponse{
-					AmountPay: amountPay,
-					PayFrom:   bill.GetPeople(),
-					PayTo:     bill.PaidBy,
-				}
+			response = BillResponse{
+				AmountPay: amountPay,
+				PayFrom:   bill.GetPeople(),
+				PayTo:     bill.PaidBy,
 			}
 		}
-
-		jsonResponse(w, response)
 	}
+	return response
+}
+
+// SplitBillHandler handle split bill endpoint
+func SplitBillHandler(w http.ResponseWriter, r *http.Request) {
+	var response interface{}
+
+	switch r.Method {
+	case "POST":
+		response = handlePost(w, r)
+	default:
+		response = errorResponse(w, http.StatusMethodNotAllowed, "Only POST method is allowed")
+	}
+	jsonResponse(w, response)
 }
