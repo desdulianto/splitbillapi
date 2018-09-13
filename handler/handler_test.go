@@ -64,14 +64,14 @@ func TestPostMethod(t *testing.T) {
 
 		result := res.Result()
 		if result.StatusCode != 200 {
-			t.Fatalf("POST %v expected %v status code, got %v", req, 200, result.StatusCode)
+			t.Errorf("POST %v expected %v status code, got %v", req, 200, result.StatusCode)
 		}
 
 		var response splitbillapi.BillResponse
 		body := res.Body.Bytes()
 		err := json.Unmarshal(body, &response)
 		if err != nil {
-			t.Fatalf("POST %v responds with %v expected %v", bill, response, c.want)
+			t.Errorf("POST %v responds with %v expected %v", bill, response, c.want)
 		}
 	}
 }
@@ -108,7 +108,7 @@ func TestWithInvalidData(t *testing.T) {
 
 		result := res.Result()
 		if result.StatusCode != 400 {
-			t.Fatalf("Request with %v should get bad request status code, but get %v",
+			t.Errorf("Request with %v should get bad request status code, but get %v",
 				payload, result.StatusCode)
 		}
 	}
@@ -129,7 +129,7 @@ func TestWithInvalidMethod(t *testing.T) {
 
 		result := res.Result()
 		if result.StatusCode != 405 {
-			t.Fatalf("Request with %v method should get response with %d status code, but it returns with %v",
+			t.Errorf("Request with %v method should get response with %d status code, but it returns with %v",
 				method, 405, result.StatusCode)
 		}
 	}
