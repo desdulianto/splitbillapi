@@ -1,1 +1,25 @@
-bin/
+# compiled bbject files, static and dynamic libs (shared objects)
+*.o
+*.a
+*.so
+ 
+ 
+# env
+.env*
+ 
+ 
+# test coverage result
+*.out
+*.html
+ 
+ 
+# project deploy/_output
+deploy/_output
+ 
+ 
+# service binary
+your-service-binary-name # it is an example
+ 
+ 
+# vendor related
+vendor/*/
