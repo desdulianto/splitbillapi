@@ -9,6 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", splitbillapi.SplitBillHandler)
+	http.HandleFunc("/healthz", splitbillapi.HealthHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
