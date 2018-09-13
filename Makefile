@@ -14,7 +14,7 @@ dep:
 	dep ensure
 
 compile:
-	@$(foreach var, $(SERVICES), GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(ODIR)/$(var)/bin/$(var) app/$(var)/main.go;)
+	@$(foreach var, $(SERVICES), GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(ODIR)/$(var)/$(var) app/$(var)/main.go;)
 
 build:
 	@$(foreach var, $(SERVICES), docker build $(NOCACHE) -t $(REGISTRY)/splitbillapi/$(var):$(VERSION) -f ./deploy/$(var)/Dockerfile .;)
