@@ -17,9 +17,5 @@
 deploy/_output
  
  
-# service binary
-your-service-binary-name # it is an example
- 
- 
 # vendor related
 vendor/*/
