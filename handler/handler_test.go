@@ -88,6 +88,16 @@ func TestWithInvalidData(t *testing.T) {
 			PaidBy: "A",
 			People: splitbill.People{"A", "B", "C", "D", "E"},
 		},
+		splitbill.Bill{
+			Amount: 100000,
+			PaidBy: "A",
+			People: splitbill.People{},
+		},
+		splitbill.Bill{
+			Amount: 100000,
+			PaidBy: "",
+			People: splitbill.People{},
+		},
 	}
 
 	for _, c := range cases {
