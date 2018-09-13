@@ -25,13 +25,11 @@ func jsonResponse(w http.ResponseWriter, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 
 	body, err := json.Marshal(data)
-	if err == nil {
-		w.Write(body)
-	} else {
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		body, _ = json.Marshal(ErrorMessage{http.StatusInternalServerError, err.Error()})
-		w.Write(body)
 	}
+	w.Write(body)
 }
 
 // Create and return http response of ErrorMessage object
