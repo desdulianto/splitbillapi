@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/desdulianto/splitbill"
-	"github.com/desdulianto/splitbillapi/handler"
+	"github.com/desdulianto/splitbillapi"
 )
 
 const URL string = "http://localhost:8080"

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/desdulianto/splitbillapi/handler"
+	"github.com/desdulianto/splitbillapi"
 )
 
 func main() {

@@ -48,28 +48,23 @@ func badRequest(w http.ResponseWriter, message string) ErrorMessage {
 
 // handle POST request
 func handlePost(w http.ResponseWriter, r *http.Request) interface{} {
-	var response interface{}
-
 	// decode request body
 	var bill splitbill.Bill
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&bill)
 	if err != nil {
-		response = badRequest(w, err.Error())
-	} else {
-		// generate response
-		amountPay, err := bill.SplitEvenly()
-		if err != nil {
-			response = badRequest(w, err.Error())
-		} else {
-			response = BillResponse{
-				AmountPay: amountPay,
-				PayFrom:   bill.GetPeople(),
-				PayTo:     bill.PaidBy,
-			}
-		}
+		return badRequest(w, err.Error())
 	}
-	return response
+	// generate response
+	amountPay, err := bill.SplitEvenly()
+	if err != nil {
+		return badRequest(w, err.Error())
+	}
+	return BillResponse{
+		AmountPay: amountPay,
+		PayFrom:   bill.GetPeople(),
+		PayTo:     bill.PaidBy,
+	}
 }
 
 // SplitBillHandler handle split bill endpoint
