@@ -1,0 +1,23 @@
+templateVersion: v2.2.1
+projectName: splitbillapi
+services:
+- name: web
+  port: "8080"
+  environments:
+  - name: production
+    replica: "2"
+  - name: sandbox
+    replica: "1"
+  - name: staging
+    replica: "1"
+  nodePort: "38080"
+  healthz: healthz
+  maxMem: "2"
+  maxCpu: "2"
+  minMem: "0.5"
+  minCpu: "1"
+  limit: false
+  timeout: "1"
+  delay: "30"
+  language: go
+  consul: envconsul
